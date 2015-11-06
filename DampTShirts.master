@@ -1,0 +1,201 @@
+﻿<%@ Master Language="C#"  AutoEventWireup="true" CodeFile="DampTShirts.master.cs" Inherits="DampTShirts" EnableViewState="False" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraphprotocol.org/schema/">
+<head id="Head1" runat="server" enableviewstate="False">
+	<title></title>
+	<link rel="stylesheet" href="<%= ResolveUrl("~/css/style.css") %>" />
+	<link href="http://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css" />
+	<link rel="shortcut icon" href="<%= ResolveUrl("~/images/favicon.ico") %>" type="image/x-icon" />
+	<meta name="robots" content="index, follow" />
+	<script src="/Scripts/jquery-1.4.1.min.js" type="text/javascript"></script>
+	<script src="/Scripts/jquery.hoverIntent.minified.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	function getOn() {
+		$(this).height($(this).height() + 10);
+		$('.top_tags', $(this)).css('display', 'block');
+	}
+	function getOff() {
+		$(this).height($(this).height() - 10);
+		$('.top_tags', $(this)).css('display', 'none');
+	}
+
+	$(function () {
+		$("#ThumbsDown").live('click', function () {
+			var intDiggID = $(this).attr('name');
+			var intThumb = -1;
+			Thumbs(intDiggID, intThumb);
+		});
+		$('#ThumbsUp').live('click', function () {
+			var intDiggID = $(this).attr('name');
+			var intThumb = 1;
+			Thumbs(intDiggID, intThumb);
+		});
+		function Thumbs(intDiggID, intThumb) {
+			$.ajax({
+				url: "/thumbs.aspx",
+				data: "DiggID=" + intDiggID + "&Thumb=" + intThumb,
+				success: function (Response) {
+					var mySplitResponse = Response.split(",");
+					intDiggID = mySplitResponse[0];
+					intThumbs_New = mySplitResponse[1];
+					$('#ThumbID_' + intDiggID).fadeOut('fast', function () {
+						$('#ThumbID_' + intDiggID).addClass('PlusMinus');
+						if (parseFloat(intThumbs_New) > 0) {
+							$('#ThumbID_' + intDiggID).html('+' + intThumbs_New);
+							$('#ThumbID_' + intDiggID).addClass('Positive');
+						} else if (parseFloat(intThumbs_New) < 0) {
+							$('#ThumbID_' + intDiggID).html('-' + intThumbs_New);
+							$('#ThumbID_' + intDiggID).addClass('Negative');
+						} else {
+							$('#ThumbID_' + intDiggID).html(intThumbs_New);
+						}
+						$('#ThumbID_' + intDiggID).delay(500).fadeIn('fast');
+					});
+				}
+			});
+		}
+		//SEARCH
+		function mySearch() {
+			if ($('#inpSearch').val() != "") {
+				strSearch = $('#inpSearch').val();
+			} else {
+				strSearch = "Null";
+			}
+			if ('<%= varConst.cSiteName %>' == 'damptshirts') {
+				window.location.replace('/<%= varConst.cSEODirectory%>/search/0/' + strSearch.replace(/ /g, "-") + '/');
+			} else {
+				window.location.replace('/' + strSearch.replace(/ /g, "-") + '/search/0/');
+			}
+		}
+		$("#inpSearch").keyup(function (event) {
+			if (event.keyCode == 13) {
+				mySearch();
+			}
+		});
+		$('#btnSearch').click(function () {
+			mySearch();
+		});
+
+		$('.cog').hoverIntent(getOn, getOff);
+	});
+	</script>
+  <asp:ContentPlaceHolder ID="HeadContent" runat="server"></asp:ContentPlaceHolder>
+  <script type="text/javascript">
+	//GOOGLE PLUS
+	(function () {
+		var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+		po.src = 'https://apis.google.com/js/plusone.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+	})();
+	//GOOGLE ANALYTICS
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', '<%= varConst.cGoogleID %>']);
+	_gaq.push(['_trackPageview']);
+
+	(function () {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+  </script>
+  <!-- Google Analytics Social Button Tracking -->
+  <script src="/Scripts/ga_social_tracking.js"></script>
+  <!-- Load Twitter JS-API asynchronously -->
+  <script type="text/javascript" charset="utf-8">
+	window.twttr = (function (d, s, id) {
+	  var t, js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return; js = d.createElement(s); js.id = id;
+	  js.src = "//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
+	  return window.twttr || (t = { _e: [], ready: function (f) { t._e.push(f) } });
+	} (document, "script", "twitter-wjs"));
+
+	// Wait for the asynchronous resources to load
+	twttr.ready(function (twttr) {
+	  _ga.trackTwitter(); //Google Analytics tracking
+	});
+  </script>
+  <!-- StumbleUpon Include -->
+  <script type="text/javascript">
+	(function () {
+	  var li = document.createElement('script'); li.type = 'text/javascript'; li.async = true;
+	  li.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + '//platform.stumbleupon.com/1/widgets.js';
+	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(li, s);
+	})();
+  </script>
+</head>
+<body>
+<div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function () {
+	FB.init({
+	  appId: '243380072355004', // App ID
+	  channelUrl: '//www.damptshirts.com/channel.html', // Channel File
+	  status: true, // check login status
+	  cookie: true, // enable cookies to allow the server to access the session
+	  xfbml: true  // parse XFBML
+	});
+
+	_ga.trackFacebook(); //Google Analytics tracking
+  };
+
+  // Load the SDK Asynchronously
+  (function (d) {
+	var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+	if (d.getElementById(id)) { return; }
+	js = d.createElement('script'); js.id = id; js.async = true;
+	js.src = "//connect.facebook.net/en_US/all.js";
+	ref.parentNode.insertBefore(js, ref);
+  } (document));
+</script>
+  <!-- START HEADER -->
+  <div class="masthead">
+	<div class="header clearfix">
+	  <a class="logo" href="/"><img src="<%= varConst.cMyLogo %>" alt="<%= varConst.cLogoAlt %>" title="<%= varConst.cLogoAlt %>" /></a>
+			<div style="float:right;">
+				<div id="navBar" class="clearfix">
+					<!-- START SEARCH -->
+					<div class="search clearfix">
+						<input type="text" id="inpSearch" class="inpSearch" />
+						<a id="btnSearch" class="btn btnSearch"><span>Search</span></a>
+					</div>
+					<!-- END SEARCH -->  
+					<%if (varConst.cShowNav == true) { %>
+					<div class="nav clearfix">
+						<ul>
+							<li><a href="http://t-shirts-blog.damptshirts.com/">T-Shirt Blog</a></li>
+							<li><a href="/t-shirt-coupons/">T-Shirt Coupons and Codes</a></li>
+							<li class="cog">Popular Tags
+								<ul class="top_tags">
+									<asp:Repeater ID="TagList" runat="server" OnItemDataBound="Tag_ItemDataBound">
+										<ItemTemplate>
+											<asp:Literal ID="TagCloud" runat="server"></asp:Literal>
+										</ItemTemplate>
+									</asp:Repeater>
+								</ul>
+							</li>
+						</ul>
+					</div>
+					<% } %>
+				</div>
+				
+			</div>
+	</div>
+  </div>
+  <!-- END HEADER -->
+
+  <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+  
+  <!-- START FOOTER -->
+  <div class="footer_wrap">
+	<div class="footer_inner">
+	  <div class="copyright clearfix">
+		<div class="floatleft"><a href="/">Home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/tag-list/">Tag List</a><%if (varConst.cShowNav == true) { %>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/what-is-damp-t-shirts/">What is <%= varConst.cFriendlySiteName%>?</a><% } %>
+		</div>
+		<div class="floatright">&copy; <%= DateTime.Now.Year%> <%= varConst.cFriendlySiteName%></div>
+	  </div>
+	</div>
+  </div>
+  <!-- END FOOTER -->
+
+</body>
+</html>

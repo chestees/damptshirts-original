@@ -1,0 +1,54 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="DampTShirts_Detail.master.cs" Inherits="DampTShirts_Detail" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraphprotocol.org/schema/">
+<head id="Head1" runat="server" enableviewstate="False">
+  <title></title>
+  <link rel="stylesheet" href="<%= ResolveUrl("~/App_Themes/Damp1/style.css") %>" />
+  <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css' />
+  <link rel="shortcut icon" href="<%= ResolveUrl("~/images/favicon.ico") %>" type="image/x-icon" />
+  <script src="/Scripts/jquery-1.4.1.min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="/Scripts/thumbs.js"></script>
+  <script type="text/javascript">
+    //$(function () {
+      //$('.myFrame').height($(window).height() - $('.header').outerHeight()-4);
+    //});
+	$(function () {
+		var frameHeight = 120;
+		//frameHeight += $('.header').outerHeight();
+		$('.myFrame').height($(window).height() - frameHeight);
+	});   
+  </script>
+  <asp:ContentPlaceHolder id="HeadContent" runat="server" />
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '<%= varConst.cGoogleID %>']);
+    _gaq.push(['_trackPageview']);
+
+    (function () {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</head>
+<body>
+  <div id="fb-root"></div>
+  <script>
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) { return; }
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=<%= varConst.cFBAppID %>";
+      fjs.parentNode.insertBefore(js, fjs);
+    } (document, 'script', 'facebook-jssdk'));
+  </script>
+  <script type="text/javascript">
+    (function () {
+      var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+      po.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+  </script>
+  <asp:ContentPlaceHolder id="MainContent" runat="server" />
+</body>
+</html>
